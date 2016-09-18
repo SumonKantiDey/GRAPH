@@ -1,0 +1,44 @@
+///ref http://www.shafaetsplanet.com/planetcoding/?p=211
+//undirected graph
+#include<bits/stdc++.h>
+using namespace std;
+#define MAX 100000 //maximum node
+vector<int>edges[MAX];
+vector<int>cost[MAX]; //parallel vector to store costs;
+int main()
+{
+int N,E;
+cout<<"Give the number of node and edges :"<<endl;
+scanf("%d%d",&N,&E);
+for(int i=1;i<=E;i++)
+{
+int x,y;
+scanf("%d%d",&x,&y);
+edges[x].push_back(y);
+edges[y].push_back(x);
+cost[x].push_back(1);
+cost[y].push_back(1);
+}
+for(int i=1; i <=N ; i++){
+    cout<<"Node "<<i<<" connected with other node and cost from node "<<i<<" to connceted node :"<<endl;
+for(int j=0; j<edges[i].size(); j++){
+    cout<<"node "<<edges[i][j]<<" cost need "<<cost[i][j];
+    cout<<" --->At index  "<<"("<<i<<" "<<j<<")"<<" ";
+}
+cout<<endl;
+}
+return 0;
+}
+/**
+intput :
+//6 nodes and 8 edges
+6 8
+1 2
+1 4
+2 4
+2 5
+4 5
+5 3
+3 6
+6 6
+**/
