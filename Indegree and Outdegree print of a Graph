@@ -1,0 +1,61 @@
+//ref http://www.shafaetsplanet.com/planetcoding/?p=211
+//Graph is directed
+#include<bits/stdc++.h>
+using namespace std;
+#define MAX 100000 //maximum node
+vector<int>edges[MAX];
+vector<int>cost[MAX]; //parallel vector to store costs;
+vector<int>indgree[MAX];
+int in[100],out[100];
+int main()
+{
+int N,E,k=0;
+cout<<"Give the number of node and edges :"<<endl;
+scanf("%d%d",&N,&E);
+for(int i=1;i<=E;i++)
+{
+int x,y;
+scanf("%d%d",&x,&y);
+edges[x].push_back(y);
+in[y]++;
+out[x]++;
+//cost[x].push_back(1);
+//cost[y].push_back(1);
+indgree[y].push_back(x);
+}
+
+for(int i=1; i <=N ; i++){
+    cout<<"outdegree from node  "<<i<<":";
+for(int j=0; j<edges[i].size(); j++){
+    cout<<edges[i][j]<<" ";
+    cout<<" --->At index  "<<"("<<i<<" "<<j<<")"<<" ";
+}
+cout<<endl;
+}
+for(int i=1; i <=N ; i++){
+    cout<<"indegree  from node "<<i<<":";
+for(int j=0; j<indgree[i].size(); j++){
+    cout<<indgree[i][j]<<" ";
+    cout<<" --->At index  "<<"("<<i<<" "<<j<<")"<<" ";
+}
+cout<<endl;
+}
+
+for(int i=1; i<=N; i++){
+    cout<<"Total number of Indgree from node  "<<i<<" is : ";
+    cout<<in[i]<<endl;
+}
+for(int i=1; i<=N; i++){
+    cout<<"Total number of Outdgree from node "<<i<<" is : ";
+    cout<<out[i]<<endl;
+}
+return 0;
+}
+/**
+4 5
+1 3
+1 4
+2 1
+2 4
+3 2
+**/
