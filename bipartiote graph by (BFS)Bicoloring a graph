@@ -1,0 +1,71 @@
+///ref https://jimgao.tk/wordpress/?p=296
+//ref http://zobayer.blogspot.com/2010/03/testing-bipartite-graph.html
+/// prob https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=945
+#include<bits/stdc++.h>
+using namespace std;
+vector<int>adj[1000];
+int colour[1000];
+void addEdge(int u,int w)
+{
+    adj[u].push_back(w);
+    adj[w].push_back(u);
+}
+int main()
+{
+  int N,E,u,v;
+  while(cin>>N){
+    for(int i=0; i<1001; i++)adj[i].clear();
+      if(N==0){
+        break;
+      }
+        cin>>E;
+  memset(colour,-1,sizeof(colour));
+  adj[1000].clear();
+  for(int i=0; i<E; i++){
+    cin>>u>>v;
+    addEdge(u,v);
+    //adj[u].push_back(v);
+    //adj[v].push_back(u);
+  }
+    queue<int>Q;
+    Q.push(0);
+    colour[0] = 0;
+    int f=0;
+    while(!Q.empty())
+    {
+        int u = Q.front();
+       // cout<<"front a =======  "<<u<<endl;
+        Q.pop();
+        for(int i=0; i<adj[u].size(); i++)
+        {
+            int v = adj[u][i];
+            //cout<<"v======"<<endl;
+            if(colour[v] == -1)
+            {
+                if(colour[u] == 0){
+                    colour[v]=1;
+                }
+                else {colour[v]=0;}
+                Q.push(v);
+            }
+            else {
+                if(colour[u] == colour[v]){
+                    f=1;
+                    break;
+                }
+            }
+        }
+          ///Q.pop();//dea jabe
+        if(f==1){
+            break;
+        }
+
+    }
+    if(f==1){
+        cout<<"NOT BICOLORABLE."<<endl;
+    }
+    else cout<<"BICOLORABLE."<<endl;
+  }
+
+ return 0;
+}
