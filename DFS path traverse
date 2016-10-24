@@ -1,0 +1,61 @@
+///ref http://www.practice.geeksforgeeks.org/problem-page.php?pid=700203
+#include <bits//stdc++.h>
+using namespace std;
+vector<int> g[128];
+bool seen[128];
+int n, e,m;
+
+void dfs(int u, vector<int> g[], bool vis[105])
+{
+    vis[u] = true;
+    printf("%d ", u);
+    for(int i = 0; i < g[u].size(); i++) {
+        int v = g[u][i];
+        if(!vis[v]) {
+            dfs(v,g,vis);
+        }
+    }
+}
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--){
+    memset(seen,false,sizeof(seen));
+    n=0;
+    scanf("%d",&e);
+    for(int i=0; i<e; i++) {
+       int u, v;
+       cin >> u >> v;
+       g[u].push_back(v);
+       m = max(u,v);
+       n = max(m,n);///for finding maximum node number
+    }
+    for(int i=1; i<=n; i++){
+        cout<<"before i>> "<<i<<endl;
+        if(!seen[i]) {///i sobsomy asbe but dfs vis[i] true jawai seen[i] kaj korbe na
+            cout<<"After i >> "<<i<<endl;
+            dfs(i,g,seen);
+            cout<<endl;
+    }
+    }
+    cout<<endl;
+    }
+    return 0;
+}
+/**
+input output
+1
+4
+1 2
+1 3
+1 4
+3 5
+before i>> 1
+After i >> 1
+1 2 3 5 4 ///this is DFS path
+before i>> 2
+before i>> 3
+before i>> 4
+before i>> 5
+**/
