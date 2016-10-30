@@ -1,0 +1,68 @@
+///ref http://www.shafaetsplanet.com/planetcoding/?p=973
+///lightoj 1003 drunk
+#include<bits/stdc++.h>
+using namespace std;
+#define CLR(a) memset(a, 0, sizeof(a))
+#define mx 10005
+#define white 0
+#define gray 1
+#define black 2
+
+vector<int>g[mx];
+map<string,int>mp;
+vector<int>vc;
+int colour[mx];
+bool cycle;
+void dfs_topo(int u)
+{
+    colour[u] = gray;//node work does not finish
+    for(int i=0; i<g[u].size(); i++){
+        int v = g[u][i];
+        if(colour[v] == white)dfs_topo(v);//node start work
+        else if(colour[v] == gray){
+            cycle = true;
+            return;
+        }
+    }
+    colour[u] = black;//when node work finish
+   // vc.push_back(u);
+}
+void dfs(int n)
+{
+    CLR(colour);
+    for(int i=1; i<=n; i++){
+        if(cycle == true)return;
+        if(colour[i] == white)dfs_topo(i);
+    }
+}
+int main()
+{
+    int tc,cs=0,n,e,drink_type,drink_type_count;
+    string u,v;
+    cin>>tc;
+    while(tc--){
+        drink_type_count = 0;
+        cin>>drink_type;
+        while(drink_type--){
+            cin>>u>>v;
+            ///আমরা এইখানে টোটাল নোড  কয়টা তা দেখছি (১-৫,৫-৩) ৫ থেকে ২ তা লিংক আছে কিন্তু
+            ///আমারা দেখি এইখানে নোড আছে ৩ টা তাই মাপ্পিং ব্যাবহার করা হয়েছে
+            if(mp[u] == 0)mp[u] = drink_type_count++;
+            if(mp[v] == 0)mp[v] = drink_type_count++;
+            g[mp[u]].push_back(mp[v]);
+        }
+        printf("Case %d: ",++cs);
+        cycle = false;
+        dfs(drink_type_count);
+        //reverse(vc.begin(),vc.end());
+        if(cycle){
+            cout<<"No"<<endl;
+        }
+        else {
+            cout<<"Yes"<<endl;
+        }
+        vector<int>t[mx];swap(g,t);
+        mp.clear();
+}
+return 0;
+}
