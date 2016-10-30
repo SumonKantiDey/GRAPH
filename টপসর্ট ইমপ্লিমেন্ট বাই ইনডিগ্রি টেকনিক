@@ -1,0 +1,62 @@
+///ref https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1246
+///https://sites.google.com/site/smilitude/topsort
+///top sort by indegree and direct graph
+#include<bits/stdc++.h>
+using namespace std;
+#define clr(a) memset(a,0,sizeof(a))
+int taken[120],indegree[120],order[120][120];
+int n,e;
+void topsort()
+{
+    vector<int>task;
+    int i,j,k,invalid;
+    for(i=1; i<=n; i++)
+    {
+        for(j=1; j<=n; j++)
+        {
+            if(taken[j] == 0 && indegree[j] ==0)
+            {
+              taken[j] = 1;
+              task.push_back(j);
+                for(k=1; k<=n; k++){
+                    if(order[j][k]){
+                        --indegree[k];
+                    }
+                }
+                break;///if j is true for one element then break
+            }
+
+        }
+         if(j-1 == n){
+                invalid = 1;
+                break;///if get cycle
+            }
+    }
+    if(invalid == 1){
+        cout<<" There is no solution "<<endl;
+    }
+    else{
+    for(int p=0; p<task.size(); p++){
+        cout<<task[p]<<" ";
+    }
+    cout<<endl;
+    task.clear();
+    }
+}
+int main()
+{
+    int a,b;
+    while(cin>>n>>e){
+    if(n==0 and e == 0)break;;
+    for(int i=1; i<=e; i++){
+        cin>>a>>b;
+        order[a][b] = 1;
+        indegree[b]++;
+    }
+    topsort();
+    clr(order);
+    clr(indegree);
+    clr(taken);
+    }
+    return 0;
+}
