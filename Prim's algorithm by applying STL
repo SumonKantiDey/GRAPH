@@ -1,0 +1,71 @@
+///ref http://www.shafaetsplanet.com/planetcoding/?p=692
+///ref https://www.hackerearth.com/practice/algorithms/graphs/minimum-spanning-tree/tutorial/
+#include<bits/stdc++.h>
+using namespace std;
+const int MAX = 1e4 + 5;
+typedef pair<long long, int> PII;
+bool marked[MAX];
+vector <PII> adj[MAX];
+long long prim(int x)
+{
+    priority_queue<PII, vector<PII>, greater<PII> > Q;///small to large a sort hobe via 1st element
+                                                      ///of pair value
+    int y;
+    long long minimumCost = 0;
+    PII p;
+    Q.push(make_pair(0, x));///startint node ar cost 0 dora hoyece
+    while(!Q.empty())
+    {
+        // Select the edge with minimum weight
+        p = Q.top();
+        Q.pop();
+        x = p.second;
+        // Checking for cycle
+        if(marked[x] == true)
+            continue;
+        minimumCost += p.first;
+        marked[x] = true;
+        for(int i = 0;i < adj[x].size();++i)
+        {
+            y = adj[x][i].second;///adjacent node nea hocche
+            if(marked[y] == false)
+                Q.push(adj[x][i]);
+        }
+    }
+    return minimumCost;
+}
+
+int main()
+{
+    int nodes, edges, x, y;
+    long long weight, minimumCost;
+    cin >> nodes >> edges;
+    for(int i = 0;i < edges;++i)
+    {
+        cin >> x >> y >> weight;
+        adj[x].push_back(make_pair(weight, y));
+        adj[y].push_back(make_pair(weight, x));
+    }
+    // Selecting 1 as the starting node
+    minimumCost = prim(1);
+    cout << "minimumCost of mst : "<<minimumCost << endl;
+    return 0;
+}
+/**
+input:
+///input from shafaetsplanet
+8 11 ///node edge
+1 2 4
+1 5 2
+1 4 10
+2 4 8
+2 3 18
+3 4 11
+4 5 5
+4 7 11
+4 8 9
+6 7 1
+6 8 2
+output:
+minimumCost of mst : 34
+**/
