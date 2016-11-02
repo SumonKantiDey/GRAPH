@@ -1,0 +1,121 @@
+///ref http://www.shafaetsplanet.com/planetcoding/?p=692
+///description 2 no khata
+#include<bits/stdc++.h>
+using namespace std;
+#define CLR(a) sizeof(a,0,sizeof(a))
+const int MAX = 1e4 + 5;
+int visited[1000];
+#define edgea pair< int, int >
+// ( w (u, v) ) format
+vector< pair< int, edgea > > G,MST;
+vector<int>edge[MAX];
+vector<int>cost[MAX];
+struct data{
+  int v,w;
+  bool operator < (const data & p)const{
+    return w > p.w;
+  }
+};
+int mstprims(int src,int n)
+{
+    memset(visited, 0, sizeof(visited));
+    priority_queue< data >pq;
+    int u,v,p,sum=0;
+    for(int i=0; i<n-1; i++)
+    {
+        u = src;
+        visited[src] = 1;
+        for(int j=0; j<edge[u].size(); j++)
+        {
+            v = edge[u][j];
+            if(visited[v] == 0)
+            {
+                data temp;
+                temp.v = v;
+                temp.w = cost[u][j];
+                pq.push(temp);
+            }
+        }
+
+        while(visited[src])
+        {
+            data node;
+            node = pq.top();pq.pop();
+            src = node.v;
+            p = node.w;
+        //cout<<" src == "<<src<<" cost :"<<p<<endl;
+        }
+       // cout<<" needed mst src == "<<src<<" cost :"<<p<<endl;
+        for(int m=0; m<G.size(); m++)
+        {
+            if(G[m].second.first == -1 && G[m].second.first == -1)
+                continue;///একই কস্ট এর একটা  এইজ একবার ডুকলে  আর ডুকবে না
+            if(G[m].first == p )
+            {
+                MST.push_back(G[m]);
+                G[m].second.first = -1;  
+                G[m].second.second = -1;
+                break;
+            }
+        }
+        sum+=p;
+    }
+    return sum;
+}
+int main()
+{
+    int n,e,u,v,w,src,minimum_cost;
+    scanf("%d %d",&n,&e);
+    for(int i=0; i<e; i++)
+    {
+        scanf("%d%d%d",&u,&v,&w);
+        G.push_back(pair< int, edgea >(w, edgea(u, v)));///কস্ট  আনুসারে এইজ গুলু অ্যাড হচ্ছে  w (u,v) format
+        edge[u].push_back(v);
+        edge[v].push_back(u);
+        cost[u].push_back(w);
+        cost[v].push_back(w);
+    }
+    minimum_cost = mstprims(1,n);
+    cout<<"MST minimum cost :"<<minimum_cost<<endl;
+    cout<<endl;
+    cout<<"MST edge is: "<<endl;
+    for(int i=0; i<MST.size(); i++)
+    {
+        cout<<"edge ";
+        printf("( %d", MST[i].second.first);
+        printf(", %d )", MST[i].second.second);
+        printf(": cost %d\n", MST[i].first);
+    }
+
+return 0;
+
+}
+/**
+input:
+///input from shafaetsplanet
+8 11 ///node edge
+1 2 4
+1 5 2
+1 4 10
+2 4 8
+2 3 18
+3 4 11
+4 5 5
+4 7 11
+4 8 9
+6 7 1
+6 8 2
+
+output:
+MST minimum cost :34
+
+MST edge is:
+edge ( 1, 5 ): cost 2
+edge ( 1, 2 ): cost 4
+edge ( 4, 5 ): cost 5
+edge ( 4, 8 ): cost 9
+edge ( 6, 8 ): cost 2
+edge ( 6, 7 ): cost 1
+edge ( 3, 4 ): cost 11
+**/
+
