@@ -1,0 +1,75 @@
+///prob uva 459 - Graph Connectivity
+///ref http://www.shafaetsplanet.com/planetcoding/?p=763
+///ref http://pastebin.com/jrfRqwaG
+#include<bits/stdc++.h>
+using namespace std;
+
+int par[27];
+int mp[27],cnt[27];
+map<int,int>alpha;
+struct side
+{
+    int from,to;
+} ;
+int findset(int r)
+{
+    if(par[r] == r) return r;
+    return par[r] = findset(par[r]);
+}
+void setunion(int a, int b)
+{
+    int u = findset(a);
+    int v = findset(b);
+    if(u != v)
+    par[u] = v;
+}
+int main()
+{
+    side get;
+    char s[3];;
+    int u,v,n,a,b,m,cnt=0,p=1;
+    char c;
+   for(int i='A'; i<='Z'; i++){
+        alpha[i] = p;
+        p++;
+   }
+   int tc;
+   cin>>tc;
+   while(tc--){
+    memset(mp,0,sizeof(mp));
+    memset(par,0,sizeof(par));
+   cin>>c;
+   getchar();
+    for(int i = 1; i <= alpha[c]; i++)
+    {
+        par[i] = i ;
+    }
+    while(gets(s))
+    {
+        if(strlen(s) == 0)break;
+        get.from =  alpha[s[0]];
+        get.to   = alpha[s[1]];
+        setunion(get.from,get.to);
+    }
+
+    for(int i = 1; i <= alpha[c]; i++){
+         mp[findset(i)]++;///count maximum number include in one set
+    }
+    int mx=0;
+    for(int i = 1; i <= alpha[c]; i++){
+    if(mp[i] != 0){
+        mx += 1;
+        mp[i]=0;
+    }
+
+    }
+     cout<<mx<<endl;
+     if(tc)cout<<endl;
+     mx=0;
+     cnt=0;
+ }
+    return 0;
+}
+
+
+
