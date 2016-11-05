@@ -1,0 +1,89 @@
+///ref http://zobayer.blogspot.com/2010/01/kruskals-algorithm-in-c.html
+///ref http://www.shafaetsplanet.com/planetcoding/?p=692
+///ref http://www.shafaetsplanet.com/planetcoding/?p=825
+#include<bits/stdc++.h>
+using namespace std;
+#define edge pair<int,int>
+const int MAX = 1e4+5;
+///(w(u,v))format
+vector<pair<int,edge> >graph,mst;
+int par[MAX],N,E,total;
+int findset(int r)
+{
+    if(par[r] == r)return r;
+    return par[r] = findset(par[r]);
+}
+void kruskal()
+{
+    sort(graph.begin(),graph.end());
+    total=0;
+    for(int i=0; i<E; i++)
+    {
+        int u = findset(graph[i].second.first);
+        int v = findset(graph[i].second.second);
+        if(u != v)
+        {
+            mst.push_back(graph[i]);
+            total+=graph[i].first;
+            par[u] = v;
+
+        }
+    }
+}
+void reset()
+{
+    for(int i=1; i<=N; i++){
+        par[i] = i;
+    }
+}
+
+void print()
+{
+    int i, sz;
+    // this is just style...
+    sz = mst.size();
+    for(i=0; i<sz; i++)
+    {
+        printf("( %d", mst[i].second.first);
+        printf(", %d )", mst[i].second.second);
+        printf(": %d\n", mst[i].first);
+    }
+    printf("Minimum cost: %d\n", total);
+}
+int main()
+{
+    int u,v,w;
+    cin>>N>>E;
+    reset();
+    for(int i=1; i<=E; i++)
+    {
+        cin>>u>>v>>w;
+        graph.push_back(pair<int,edge>(w,edge(u,v)));
+    }
+    kruskal();
+    print();
+ return 0;
+}
+/** input output
+//shafaetsplanet input
+8 11
+1 2 4
+1 5 2
+1 4 10
+2 4 8
+2 3 18
+3 4 11
+4 5 5
+4 7 11
+4 8 9
+6 7 1
+6 8 2
+( 6, 7 ): 1
+( 1, 5 ): 2
+( 6, 8 ): 2
+( 1, 2 ): 4
+( 4, 5 ): 5
+( 4, 8 ): 9
+( 3, 4 ): 11
+Minimum cost: 34
+**/
