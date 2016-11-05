@@ -1,0 +1,83 @@
+///ref http://zobayer.blogspot.com/2010/01/kruskals-algorithm-in-c.html
+///ref http://www.shafaetsplanet.com/planetcoding/?p=692
+///ref http://www.shafaetsplanet.com/planetcoding/?p=825
+#include<bits/stdc++.h>
+using namespace std;
+const int MAX = 1e4+5;
+int par[MAX];
+
+struct edge{
+   int u,v,w;
+   bool operator < (const edge & p)const
+   {
+       return w < p.w;
+   }
+};
+vector<edge>e;
+vector<edge >mst_tree;
+int findset(int r)
+{
+    if(par[r] == r)return r;
+    return par[r] = findset(par[r]);
+}
+int kruskal(int n)
+{
+    sort(e.begin(),e.end());
+    for(int i=1; i<=n; i++)par[i] = i;
+    int cnt = 0,cost = 0;
+    for(int i=0; i<(int)e.size(); i++){
+        int u = findset(e[i].u);
+        int v = findset(e[i].v);
+        if(u != v){
+        mst_tree.push_back(e[i]);
+        par[u] = v;
+        cnt++;
+        cost += e[i].w;
+        if(cnt == n-1)break;
+        }
+    }
+    return cost;
+}
+int main()
+{
+    int n,m;
+    cin>>n>>m;
+    for(int i=1; i<=m; i++){
+        int u,v,w;
+        cin>>u>>v>>w;
+        edge get;
+        get.u = u;
+        get.v = v;
+        get.w = w;
+        e.push_back(get);
+    }
+    cout<<"minimum cost : "<<kruskal(n)<<endl;
+    for(int i=0; i<mst_tree.size(); i++){
+        cout<<"("<<mst_tree[i].u<<" , "<<mst_tree[i].v<<") : "<<mst_tree[i].w<<endl;
+    }
+ return 0;
+}
+/**
+input output:
+//shafaetsplanet input
+8 11
+1 2 4
+1 5 2
+1 4 10
+2 4 8
+2 3 18
+3 4 11
+4 5 5
+4 7 11
+4 8 9
+6 7 1
+6 8 2
+minimum cost : 34
+(6 , 7) : 1
+(1 , 5) : 2
+(6 , 8) : 2
+(1 , 2) : 4
+(4 , 5) : 5
+(4 , 8) : 9
+(3 , 4) : 11
+**/
