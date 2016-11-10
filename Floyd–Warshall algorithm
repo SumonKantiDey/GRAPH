@@ -1,0 +1,112 @@
+///ref http://www.geeksforgeeks.org/dynamic-programming-set-16-floyd-warshall-algorithm/
+///ref https://www.youtube.com/watch?v=4OQeCuLYj-4
+///ref https://www.youtube.com/watch?v=LwJdNfdLF9s
+///ref https://www.youtube.com/watch?v=Bs6CGN66a8Y
+#include<bits/stdc++.h>
+using namespace std;
+#define MX 1000
+#define INF 9999
+#define V 4
+stack<int>s;
+int parent [V][V];
+void printsolution(int dist[][V]);
+void path(int start,int enda);
+void floydWarsall(int graph[][V])
+{
+    int dist[V][V],i,j,k;
+    for(int i=0; i<V; i++){
+        for(int j=0; j<V; j++){
+            dist[i][j] = graph[i][j];
+            if(graph[i][j] != INF && i!=j){
+                parent[i][j] = i;
+            }else parent[i][j] = -1;
+
+        }
+    }
+    for(int k = 0; k < V; k++){
+        for(int i = 0; i < V; i++){
+            for(int j = 0; j<V; j++){
+                if(dist[i][k] + dist[k][j] < dist[i][j]){
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                    parent[i][j] = parent[k][j];
+                }
+            }
+        }
+    }
+    cout<<"Enter two node for finding path : "<<endl;
+    int n1,n2;
+    cin>>n1>>n2;
+    cout<<"Path is : ";
+    path(n1,n2);
+    cout<<"minimum distance between " << n1<<" and "<<n2<<" is : "<<dist[n1][n2]<<endl;
+    printsolution(dist);
+
+}
+
+void printsolution(int dist[][V])
+{
+     printf ("Following matrix shows the shortest distances"
+            " between every pair of vertices \n");
+    for(int i = 0; i < V; i++){
+        for(int j = 0; j < V; j++){
+            if(dist[i][j] == INF)
+                printf("%7s","INF");
+            else printf("%7d",dist[i][j]);
+        }
+        cout<<"\n";
+    }
+}
+
+void path(int start,int enda)
+{
+    s.push(enda);
+    while(true)
+    {
+        enda = parent[start][enda];
+        if(enda == -1){
+            cout<<"NO PATH"<<endl;
+            return;
+        }
+        s.push(enda);
+        if(start == enda)break;
+    }
+  while(!s.empty())
+  {
+      cout<<s.top()<<" ";
+      s.pop();
+  }
+  cout<<endl;
+}
+
+int main()
+{
+    int graph[V][V] = {{0, 5, INF, 10},
+                       {INF, 0, 3, INF},
+                       {INF, INF, 0, 1},
+                       {INF, INF, INF, 0},
+                       };
+    floydWarsall(graph);
+    return 0;
+}
+/** Let us create the following weighted graph
+            10
+       (0)------->(3)
+        |         /|\
+      5 |          |
+        |          | 1
+       \|/         |
+       (1)------->(2)
+            3
+**/
+/**
+input output:
+Enter two node for finding path :
+0 3
+Path is : 0 1 2 3
+minimum distance between 0 and 3 is : 9
+Following matrix shows the shortest distances between every pair of vertices
+      0      5      8      9
+    INF      0      3      4
+    INF    INF      0      1
+    INF    INF    INF      0
+**/
