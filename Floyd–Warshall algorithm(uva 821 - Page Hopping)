@@ -1,0 +1,53 @@
+//prob https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=762
+#include<bits/stdc++.h>
+using namespace std;
+#define INF 9999
+#define V 105
+int l=0;
+int dist[V][V];
+void flyadwarsall()
+{
+  int sum=0;
+  int cnt=0;
+    for(int k=0; k<V; k++){
+        for(int i=0; i<V; i++){
+            for(int j=0; j<V; j++){
+                if(dist[i][k] + dist[k][j] < dist[i][j]){
+                     dist[i][j] = dist[i][k] + dist[k][j];
+                }
+            }
+        }
+    }
+    for(int i = 0; i<V; i++){
+        for(int j=0; j<V; j++){
+            if(dist[i][j] != INF && i!=j){
+                sum += dist[i][j];
+                cnt++;
+            }
+        }
+    }
+    cout<<"Case "<<++l<<": "
+    <<"average length between pages = "
+    <<setprecision(3)<<fixed<<(double)sum/cnt
+    <<" clicks"<<endl;
+}
+int main()
+{
+    int u,v,a,b;
+    while(cin>>u>>v)
+    {
+        if(u == 0 && v == 0)break;
+        for(int p=0; p<V; p++){
+        for(int q=0; q<V; q++)dist[p][q] = INF;
+         }
+          dist[u][v] = 1;
+        while( cin>>a>>b)
+        {
+            if(a == 0 && b == 0)break;
+             dist[a][b] = 1;
+        }
+
+         flyadwarsall();
+    }
+ return 0;
+}
