@@ -1,0 +1,135 @@
+///ref https://www.youtube.com/watch?v=-mOEd_3gTK0
+///ref http://www.shafaetsplanet.com/planetcoding/?p=2044
+///ref http://easylessonsedu.blogspot.com/
+///ref https://www.youtube.com/watch?v=mTl9dJobACI
+///ref http://www.progkriya.org/gyan/shortest-path.html
+#include<bits/stdc++.h>
+using namespace std;
+#define maxe 9999
+#define mx 10000
+int ua[mx],va[mx],cost[mx],p[mx];
+int d[mx],hell=0;
+void path(int p[],int n)
+{
+   // cout<<n<<"  >>>> "<<p[n]<<endl;
+    if(p[n] == -1)return;
+    path(p,p[n]);
+    cout<<n<<" ";
+}
+
+void bellman(int n,int e,int start)
+{
+
+    memset(d,maxe,sizeof(d));///size all dis is infinity
+    memset(p,-1,sizeof(p));
+    p[start] = 0;
+    d[start] = 0;///let source node is 1 so let initial dis is 0
+    int neg_cycle = false;
+    for(int step = 1; step <= n; step++)
+    {
+        int update = false;
+        for(int i = 1; i <= e; i++)
+        {
+            int u = ua[i];int v = va[i];
+            if(d[v] > d[u] + cost[i])
+            {
+            d[v] = d[u] + cost[i];
+            p[v] = u;
+            update = true;
+            if(step == n)neg_cycle = true;///if step is greater than n-1 steps that means negative
+                                          ///cycle exist
+            }
+
+        }
+         if(update == false)break;///if any step no update that means we get all sorted distance;
+
+    }
+    if(neg_cycle == false)
+    {
+        for(int i = 1; i <= n; i++){
+            if(d[i] >= maxe) cout << "Distance of Node " << i << " is: unreachable "<< endl;
+            else cout << "Distance of Node " << i << " is: " << d[i] << endl;
+        }
+
+    }
+    else {
+        cout<<"Negative cycle detected!!!!"<<endl;
+        hell = 1;
+    }
+}
+int main()
+{
+    int n,e;
+    cin>>n>>e;
+    for(int i = 1; i <= e; i++)
+    {
+        cin>>ua[i]>>va[i]>>cost[i];
+    }
+     int start;
+    cin>>start;
+    bellman(n,e,start);
+    if(hell == 0){
+    printf("Shortest path from node %d:\n", start);
+    for(int i = 1; i <= n; i++) {
+        if(i == start) continue;
+        if(d[i] >= maxe) printf("\t to node %d: unreachable\n", i);
+        else{
+            printf("\t to node %d: %d  ", i, d[i]);
+            cout<<"PATH IS: ";
+            path(p,i);
+            cout<<endl;
+        }
+  }
+
+}
+return 0;
+}
+/**
+3 3
+1 2 1
+2 3 2
+3 1 -4
+2
+Negative cycle detected!!!!
+
+
+5 7///input tusar video
+4 5 2
+5 4 1
+3 5 4
+1 3 5
+2 3 -3
+1 4 8
+1 2 4
+1///source
+Distance of Node 1 is: 0
+Distance of Node 2 is: 4
+Distance of Node 3 is: 1
+Distance of Node 4 is: 6
+Distance of Node 5 is: 5
+Shortest path from node 1:
+         to node 2: 4  PATH IS: 1 2
+         to node 3: 1  PATH IS: 1 2 3
+         to node 4: 6  PATH IS: 1 2 3 5 4
+         to node 5: 5  PATH IS: 1 2 3 5
+
+5 7///input tusar video
+4 5 2
+5 4 1
+3 5 4
+1 3 5
+2 3 -3
+1 4 8
+1 2 4
+2///source
+Distance of Node 1 is: unreachable
+Distance of Node 2 is: 0
+Distance of Node 3 is: -3
+Distance of Node 4 is: 2
+Distance of Node 5 is: 1
+Shortest path from node 2:
+         to node 1: unreachable
+         to node 3: -3  PATH IS: 2 3
+         to node 4: 2  PATH IS: 2 3 5 4
+         to node 5: 1  PATH IS: 2 3 5
+**/
