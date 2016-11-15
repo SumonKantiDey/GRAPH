@@ -1,0 +1,54 @@
+///prob https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=499
+#include<bits/stdc++.h>
+using namespace std;
+#define maxe 9999
+#define mx 10000
+int ua[mx],va[mx],cost[mx],p[mx];
+int d[mx],hell;
+void bellman(int n,int e)
+{
+    memset(d,maxe,sizeof(d));///size all dis is infinity
+    d[0] = 0;///let source node is 0 so let initial dis is 0
+    int neg_cycle = false;
+    for(int step = 0; step < n; step++)
+    {
+        int update = false;
+        for(int i = 0; i < e; i++)
+        {
+            int u = ua[i];int v = va[i];
+            if(d[v] > d[u] + cost[i])
+            {
+            d[v] = d[u] + cost[i];
+            update = true;
+            if(step == n-1)neg_cycle = true;
+            }
+
+        }
+         if(update == false)break;
+
+    }
+    if(neg_cycle == true)
+    {
+            cout<<"possible"<<endl;
+    }
+    else 
+    {
+        cout<<"not possible"<<endl;
+    }
+}
+int main()
+{
+    int n,e,tc;
+    cin>>tc;
+    while(tc--){
+    cin>>n>>e;
+    for(int i = 0; i < e; i++)
+    {
+        cin>>ua[i]>>va[i]>>cost[i];
+    }
+    bellman(n,e);
+    memset(ua,0,sizeof(ua));
+    memset(va,0,sizeof(va));
+    memset(cost,0,sizeof(cost));
+    }
+}
