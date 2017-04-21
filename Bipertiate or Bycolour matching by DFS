@@ -53,10 +53,10 @@ int main()
 		          continue;
 		     if(dfs(i))
 			{
-				cout << "NOT BICOLORABLE." << endl;
-
-               p = 1;
-				break;
+				
+			cout << "NOT BICOLORABLE." << endl;
+                          p = 1;
+			 break;
 			}
 		}
 	}
