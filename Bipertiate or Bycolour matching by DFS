@@ -38,7 +38,7 @@ int main()
         swap(g1,g);
 	    if(n == 0) return 0;
        cin >> m;
-	for(int i = 0; i < m; i++)///nodes from 0 to n-1 if nodes star 1 than always --u and --v kore link korte hobe
+	for(int i = 0; i < m; i++)///nodes from 0 to n-1 if nodes start 1 than always --u and --v kore link korte hobe
 	{
 		int u = in();
 		int v = in();
