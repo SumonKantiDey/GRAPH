@@ -1,0 +1,84 @@
+///prob http://lightoj.com/volume_showproblem.php?problem=1094
+#include <bits//stdc++.h>
+using namespace std;
+#define mx 30005
+#define inf  1e9
+vector<int>edge[mx],cost[mx];
+int d[mx];
+int n,destination;
+struct data{
+   int city,dist;
+   bool operator < (const data& p) const {
+    return dist > p.dist;
+   }
+};
+int dijkstra(int source)
+{
+
+   int res = -1;
+   for(int i=0; i < mx; i++) d[i] = inf;
+   priority_queue <data> q;
+    data u,v;
+    u.city = source,u.dist = 0;
+    q.push(u);
+    d[source] = 0;
+    while(!q.empty())
+    {
+        u = q.top();q.pop();
+        int ucost = d[u.city];
+        for(int i = 0; i < edge[u.city].size();i++)
+        {
+            v.city = edge[u.city][i];
+            v.dist = cost[u.city][i] + ucost;
+            if(d[v.city] > v.dist)
+            {
+                d[v.city] = v.dist;
+                q.push(v);
+            }
+        }
+    }
+    for(int i = 0; i < n; i++)
+    {
+        if(d[i] > res)
+        {
+            res = d[i];
+            destination = i;
+        }
+    }
+
+    return destination;
+}
+int main()
+{
+    int t,ans,u,v,w;
+    scanf("%d",&t);
+    for(int cs = 1; cs <= t; cs++)
+    {
+        ans = 0;
+        scanf("%d",&n);
+        for(int i = 0; i < n-1; i++)
+        {
+            scanf("%d%d%d",&u,&v,&w);
+            edge[u].push_back(v);
+            edge[v].push_back(u);
+            cost[u].push_back(w);
+            cost[v].push_back(w);
+        }
+        ans = dijkstra(0);///just find the far node we can also write dijkstra(1)
+        cout << "Far node is : " << ans <<endl;
+        ans  = dijkstra(ans);///when get the far node then again apply dijkstra from here
+        ans = d[ans];
+        printf("Case %d: %d\n",cs,ans);
+        for(int i = 0 ; i<mx; i++)edge[i].clear(),cost[i].clear();
+
+    }
+}
+/*
+1
+4
+0 1 20
+1 2 30
+2 3 50
+Far node is : 3
+Case 1: 100
+*/
