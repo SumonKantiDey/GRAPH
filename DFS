@@ -1,0 +1,60 @@
+///prob http://lightoj.com/volume_showproblem.php?problem=1111
+#include<bits/stdc++.h>
+using namespace std;
+#define pb push_back
+vector <int> adj[1005];
+int par[1005],path[1005];
+bool vis[1005] = {false};
+void dfs(int nd)
+{
+    path[nd]++;///count the path node where this specific node can go
+    vis[nd] = true;
+    for(int i = 0; i < adj[nd].size(); i++)
+    {
+        int v = adj[nd][i];
+        if(vis[v] == false)
+        {
+            dfs(v);
+        }
+    }
+
+}
+int main()
+{
+    int t,n,k,m,u,v;
+    scanf("%d",&t);
+    for(int cs = 1; cs <= t; cs++)
+    {
+        int cnt = 0;
+        scanf("%d%d%d",&k,&n,&m);
+        for(int i = 0; i <= n; i++)
+        {
+            adj[i].clear();
+            path[i] = 0;
+            vis[i] = false;
+        }
+
+        for(int i = 0; i < k; i++)
+        {
+            scanf("%d",&par[i]);
+        }
+        for(int i = 0; i < m; i++)
+        {
+            scanf("%d%d",&u,&v);
+            adj[u].pb(v);
+        }
+        for(int i = 0; i < k; i++)
+        {
+           memset(vis,false,sizeof(vis));
+           dfs(par[i]);
+        }
+        for(int i = 0; i <= n; i++)
+        {
+            if(path[i] >= k) cnt++;
+        }
+        printf("Case %d: %d\n",cs,cnt);
+    }
+  return 0;
+}
+
+
