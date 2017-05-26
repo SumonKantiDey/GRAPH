@@ -1,0 +1,98 @@
+///http://lightoj.com/volume_showproblem.php?problem=1257
+#include <bits//stdc++.h>
+using namespace std;
+#define F first
+#define S second
+#define pb push_back
+#define mx 30005
+#define inf  1e9
+#define empt -1
+typedef pair<int,int> pii;
+vector< pii >edge[mx];
+int d[mx],d1[mx];
+int n,destination;
+int bfs1(int src)
+{
+    d[src] = 0;
+    queue<int>q;
+    q.push(src);
+    while(!q.empty())
+    {
+       int u = q.front(); q.pop();
+       for(int i = 0; i < edge[u].size(); i++)
+       {
+           int v = edge[u][i].F;
+           int cost = edge[u][i].S;
+           if(d[v] == empt)
+           {
+               d[v] = d[u] + cost;
+               q.push(v);
+           }
+       }
+    }
+    int dist = -1;
+    for(int i = 0; i < n; i++)
+    {
+        if(d[i] > dist)
+        {
+            dist = d[i];
+            destination = i;
+        }
+    }
+    return destination;
+}
+
+void bfs2(int src)
+{
+    d1[src] = 0;
+    queue<int>q;
+    q.push(src);
+    while(!q.empty())
+    {
+       int u = q.front(); q.pop();
+       for(int i = 0; i < edge[u].size(); i++)
+       {
+           int v = edge[u][i].F;
+           int cost = edge[u][i].S;
+           if(d1[v] == empt)
+           {
+               d1[v] = d1[u] + cost;
+               q.push(v);
+           }
+       }
+    }
+}
+
+int main()
+{
+    int t;
+    int u,v,w;
+    scanf("%d",&t);
+    for(int cs = 1; cs <= t; cs++)
+    {
+        scanf("%d",&n);
+
+        for(int i = 0; i < n-1; i++){
+        scanf("%d%d%d",&u,&v,&w);
+        edge[u].pb(pii(v,w));
+        edge[v].pb(pii(u,w));
+        }
+
+       memset(d,-1,sizeof(d));
+       int ans = bfs1(0);
+
+       memset(d,-1,sizeof(d));
+       ans = bfs1(ans);
+
+       memset(d1,-1,sizeof(d1));
+       bfs2(ans);
+
+       printf("Case %d:\n",cs);
+       for(int i= 0; i < n; i++){
+       printf("%d\n",max(d[i],d1[i]));
+       }
+
+       vector< pii >tmp[mx];
+       swap(edge,tmp);
+    }
+}
