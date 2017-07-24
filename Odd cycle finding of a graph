@@ -1,0 +1,62 @@
+//https://www.codechef.com/ISCC2017/problems/NODDC
+#include<bits/stdc++.h>
+using namespace std;
+vector<int>adj[20005];
+int visited[20005] = {0};
+int level[20005];
+int parent[20005];
+int odd = 0;
+void addEdge(int u,int w)
+{
+    adj[u].push_back(w);
+    adj[w].push_back(u);
+}
+void bfs(int s)
+{
+    memset(visited,0,sizeof(visited));
+    memset(parent,-1,sizeof(parent));
+    queue<int>Q;
+    Q.push(s);
+    visited[s] = 1;
+    level[s] = 0;
+    while(!Q.empty())
+    {
+        int u = Q.front(); Q.pop();
+        for(int i=0; i<adj[u].size(); i++)
+        {
+            int v = adj[u][i];
+            if(parent[v] == u) continue;
+            else if(visited[v]){
+                 if(level[u] == level[v]){
+                    odd++;
+                    //cout << odd <<"  " << u << "  " << v << endl;
+                }
+            }
+            else if(visited[v] == 0){
+                level[v] = level[u] + 1;
+                parent[v] = u;
+                visited[v] = 1;
+                Q.push(v);
+            }
+        }
+    }
+}
+int main()
+{
+   int N,E,u,v,src,x;
+  cin>>N>>E;
+  for(int i=0; i<E; i++){
+    cin>>u>>v;
+    addEdge(u,v);
+  }
+   bfs(1);
+   odd = odd/2;
+   if(odd <= 1){
+    cout << E << endl;
+   }
+   else{
+    cout << 0 << endl;
+   }
+
+   return 0;
+}
