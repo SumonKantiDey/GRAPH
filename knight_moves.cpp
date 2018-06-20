@@ -73,9 +73,9 @@ int main()
         int x1,y1,x2,y2;
         y1 = (s1[1] - '0');
         y2 = (s2[1] - '0');
-        y1--;///as i start from 0 to 7 so decrease this vale
-        y2--;///as i strat from 0 to 7 so decrease this vale
-        x1 = (s1[0] - 'a');///no need decrease because maximum difference between (a-h) is 7
+        y1--;//start from 0 to 7 so decrease this vale
+        y2--;//strat from 0 to 7 so decrease this vale
+        x1 = (s1[0] - 'a');///no need to decrease because maximum difference between (a-h) is 7
         x2 = (s2[0] - 'a');
         cout<<bfs(x1,y1,x2,y2)<<endl;
     }
