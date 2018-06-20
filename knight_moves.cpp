@@ -53,7 +53,7 @@ int bfs(int a1,int b1,int a2,int b2){
             n = temp.second + yMove[i];
             if(check(make_pair(m,n))){
                moves[m][n] = moves[temp.first][temp.second] + 1;
-               /**As all moves index are zero if i want to go index(1,2) to (3,3) then initially (1,2)= 0  
+               /**As all moves index are zero suppose i want to go index(1,2) to (3,3) then initially (1,2)= 0  
                when  child index is valid then its increase by one[(3,3) = 1] (3,3) index  is child of (1,1) index
                As i go from (1,1) to (3,3) then push this child index in queue**/
                Q.push(make_pair(m,n));
