@@ -95,11 +95,14 @@ vector<string> split(const string& s, char delim)
 
     return elems;
 }
-// this function goes to main for splitting
-//vector<string> words;
-//words = split("lorem_ipsum_dolor_sit_amet_no_tota_tacimates_delicata_eum", '_');
-//for(int i=0; i<words.size(); i++)
-//cout << words.at(i) << endl;
+
+/**
+this function goes to main for splitting
+vector<string> words;
+words = split("lorem_ipsum_dolor_sit_amet_no_tota_tacimates_delicata_eum", '_');
+for(int i=0; i<words.size(); i++)
+cout << words.at(i) << endl;
+**/
 
 /**
 //sort with respect to the second element in a pair !!
@@ -138,39 +141,39 @@ bool check(int x,int y)
 }
 int bfs(int x,int y)
 {
-    cout << "(" << x << " ," << y << ")" << endl;
+    //cout << "(" << x << " ," << y << ")" << endl;
     int vis[25][25] = {false};
     int dist[25][25] = {0} ;
     queue<point>q;
     dist[x][y ] = 0;
     vis[x][y] = true;
     q.push(point(x,y));
-
-    while(!q.empty()){
-
+    while(!q.empty())
+    {
         int x = q.front().x;
         int y = q.front().y;
         q.pop();
-    if(grid[x][y] == 'h') return dist[x][y];
-    for(int i = 0; i < 4; i++)
-    {
-        int nx = x + dx[i];
-        int ny = y + dy[i];
-       if(check(nx,ny) && grid[nx][ny] != '#' && grid[nx][ny] !='m')
+        if(grid[x][y] == 'h') return dist[x][y];
+        for(int i = 0; i < 4; i++)
         {
-            if(vis[nx][ny] == false){
-             dist[nx][ny] = 1 + dist[x][y];
-             vis[nx][ny] = true;
-             cout << "(" << nx << " ," << ny << ")" << endl;
-             q.push(point(nx,ny));
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(check(nx,ny) && grid[nx][ny] != '#' && grid[nx][ny] !='m')
+            {
+                if(vis[nx][ny] == false){
+                  dist[nx][ny] = 1 + dist[x][y];
+                  vis[nx][ny] = true;
+                 // cout << "(" << nx << " ," << ny << ")" << endl;
+                  q.push(point(nx,ny));
+                }
             }
-        }
-    }
+       }
 
     }
 }
 int main()
 {
+
    int n,m,ax,ay,bx,by,cx,cy;
    int mx = 0;
     int t;
@@ -209,11 +212,9 @@ int main()
             }
         }
      int X = bfs(ax,ay);
-     cout << ">>>>>>>>>>>>>>>>>>>>" << endl;
      int Y = bfs(bx,by);
-     cout << ">>>>>>>>>>>>>>>>>>>>" << endl;
      int Z = bfs(cx,cy);
-     cout << X << "  " << Y << "  " << Z<<endl;
+   //  cout << X << "  " << Y << "  " << Z<<endl;
      int ans = max(max(X,Y),Z);
      printf("Case %d: %d\n",cs,ans);
     }
