@@ -1,3 +1,4 @@
+bfs 2D grid
 ///ref http://www.spoj.com/problems/NAKANJ/
 ///knight moves using 2D grid
 #include<set>
