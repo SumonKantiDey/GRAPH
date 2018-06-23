@@ -1,3 +1,4 @@
+BFS
 //https://www.codechef.com/ISCC2017/problems/NODDC
 #include<bits/stdc++.h>
 using namespace std;
